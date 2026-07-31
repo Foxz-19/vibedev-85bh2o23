@@ -12,9 +12,8 @@ export function loadRecipes() {
     if (!raw) return { recipes: [], notice: '' };
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) throw new Error('invalid shape');
-    const seen = new Set();
-    const recipes = parsed.filter((recipe) => validRecipe(recipe) && !seen.has(recipe.id) && seen.add(recipe.id)).slice(0, 5);
-    return { recipes, notice: recipes.length < parsed.length ? 'Some recipes were skipped as invalid.' : '' };
+    const seen=new Set(),valid=parsed.filter((r)=>validRecipe(r)&&!seen.has(r.id)&&seen.add(r.id)),recipes=valid.slice(0,5);
+    return { recipes, notice: valid.length < parsed.length ? 'Some recipes were invalid.' : valid.length > 5 ? 'Only 5 recipes can be loaded.' : '' };
   } catch (error) {
     return { recipes: [], notice: 'Saved recipes could not be read, so a fresh list is ready.' };
   }
