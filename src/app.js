@@ -20,10 +20,7 @@ const cancelEdit = $('#cancel-edit');
 let recipes = [];
 let editingId = null;
 
-function setMessage(element, message = '', tone = '') {
-  element.textContent = message;
-  element.dataset.tone = tone;
-}
+function setMessage(element, message = '') { element.textContent = message; }
 
 function resetEditor() {
   editingId = null; recipeName.value = ''; recipeName.removeAttribute('aria-invalid'); cancelEdit.hidden = true; saveButton.querySelector('span').textContent = 'Save recipe';
