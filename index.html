@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f0e8" />
+    <title>Crumb — Sourdough hydration calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <a class="skip-link" href="#main-content">Skip to calculator</a>
+    <header class="topbar">
+      <a class="wordmark" href="./" aria-label="Crumb home"><span class="mark">C</span><span>crumb</span></a>
+      <div class="topbar-note"><span class="dot"></span> bake with intention</div>
+    </header>
+
+    <main id="main-content" class="shell">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Sourdough / baker's desk</p>
+        <h1 id="page-title">Find your dough's<br /><em>sweet spot.</em></h1>
+        <p class="lede">A quick, calm way to turn flour and hydration into the water your starter is asking for.</p>
+      </section>
+
+      <section class="workspace" aria-label="Hydration calculator and saved recipes">
+        <div class="calculator panel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">01 / calculate</p>
+              <h2>Build the dough</h2>
+            </div>
+            <span class="formula" aria-label="Water equals flour times hydration divided by one hundred">water = flour × hydration ÷ 100</span>
+          </div>
+
+          <form id="calculator-form" novalidate>
+            <div class="field-grid">
+              <label class="field">
+                <span>Flour weight</span>
+                <div class="input-wrap"><input id="flour" name="flour" type="number" inputmode="decimal" min="1" max="100000" step="0.1" value="500" autocomplete="off" aria-describedby="flour-help" aria-errormessage="form-message" /><b>g</b></div>
+                <small id="flour-help">The total flour in your mix</small>
+              </label>
+              <label class="field">
+                <span>Hydration</span>
+                <div class="input-wrap"><input id="hydration" name="hydration" type="number" inputmode="decimal" min="1" max="200" step="0.1" value="75" autocomplete="off" aria-describedby="hydration-help" aria-errormessage="form-message" /><b>%</b></div>
+                <small id="hydration-help">Water as a percentage of flour</small>
+              </label>
+            </div>
+
+            <div class="presets" aria-label="Common hydration presets">
+              <span class="preset-label">Quick set</span>
+              <div class="preset-buttons">
+                <button type="button" class="preset" data-hydration="65">65%</button>
+                <button type="button" class="preset" data-hydration="75" aria-pressed="true">75%</button>
+                <button type="button" class="preset" data-hydration="80">80%</button>
+                <button type="button" class="preset" data-hydration="85">85%</button>
+              </div>
+            </div>
+
+            <div class="result" aria-live="polite">
+              <div class="result-copy"><span class="result-label">Add this much water</span><strong id="water-result">375 g</strong><span id="descriptor" class="descriptor">Classic loaf</span></div>
+              <div class="hydration-meter" aria-hidden="true"><span id="meter-fill"></span></div>
+            </div>
+            <p id="form-message" class="form-message" role="status"></p>
+          </form>
+        </div>
+
+        <aside class="recipes panel" aria-labelledby="recipes-title">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">02 / keep close</p>
+              <h2 id="recipes-title">Your recipes</h2>
+            </div>
+            <span id="recipe-count" class="count">0 / 5</span>
+          </div>
+          <p class="aside-copy">Save the bakes you return to. Your list stays on this device.</p>
+          <form id="recipe-form" class="recipe-form" novalidate>
+            <label class="sr-only" for="recipe-name">Recipe name</label>
+            <input id="recipe-name" name="recipe-name" type="text" maxlength="32" placeholder="e.g. Sunday Loaf…" autocomplete="off" />
+            <button id="cancel-edit" class="text-button" type="button" hidden>Cancel</button>
+            <button id="save-recipe" class="save-button" type="submit"><span>Save recipe</span><span aria-hidden="true">↗</span></button>
+          </form>
+          <p id="recipe-message" class="form-message" role="status"></p>
+          <div id="recipe-list" class="recipe-list" aria-live="polite"></div>
+        </aside>
+      </section>
+      <footer class="footer"><span>Small inputs, better loaves.</span><span>Crumb / 2024</span></footer>
+    </main>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
