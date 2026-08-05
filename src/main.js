@@ -1,4 +1,4 @@
-import { getStats, sortedEntries } from './model.js';
+import { getStats, getTodayIso, sortedEntries } from './model.js';
 import { loadEntries, saveEntries } from './storage.js';
 import { entryMarkup } from './view.js';
 
@@ -9,7 +9,7 @@ let entries = [];
 let selectedRating = 0;
 let oldestFirst = false;
 
-const today = new Date().toISOString().slice(0, 10);
+const today = getTodayIso();
 fields.date.value = today;
 $('#todayLabel').textContent = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'short', day: 'numeric' }).format(new Date());
 
