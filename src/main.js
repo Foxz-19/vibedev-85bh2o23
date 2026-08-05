@@ -8,6 +8,7 @@ const fields = { id: $('#entryId'), name: $('#coffeeName'), roaster: $('#roaster
 let entries = [];
 let selectedRating = 0;
 let oldestFirst = false;
+let toastTimer;
 
 const today = getTodayIso();
 fields.date.value = today;
@@ -74,5 +75,4 @@ function populateForm(entry) { fields.id.value = entry.id; fields.name.value = e
 function resetForm() { form.reset(); fields.id.value = ''; fields.date.value = today; selectedRating = 0; updateStars(); $('#formTitle').textContent = 'Log a coffee'; $('#submitButton').innerHTML = 'Save this cup <span aria-hidden="true">↗</span>'; $('#cancelEdit').hidden = true; $('#formError').textContent = ''; }
 function deleteEntry(entry) { if (!window.confirm(`Remove “${entry.coffeeName}” from your diary?`)) return; const nextEntries = entries.filter((item) => item.id !== entry.id); const error = saveEntries(nextEntries); if (error) { showToast(error, true); return; } entries = nextEntries; render(); showToast('Cup removed.'); }
 function makeId() { return globalThis.crypto?.randomUUID?.() ?? `cup-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`; }
-let toastTimer;
 function showToast(message, isError = false) { const toast = $('#toast'); toast.textContent = message; toast.classList.toggle('is-error', isError); toast.classList.add('is-visible'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 4200); }
