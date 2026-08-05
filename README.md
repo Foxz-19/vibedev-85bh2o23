@@ -11,3 +11,13 @@ python -m http.server 4173
 ```
 
 Then open `http://localhost:4173`. Entries stay in the browser's `localStorage`; there is no account or backend.
+
+## Quality checks
+
+Run the regression suite with:
+
+```bash
+npm test
+```
+
+It covers entry validation, sorting and statistics, plus normal, corrupt, blocked, and quota-limited browser-storage behavior.
