@@ -3,90 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f0e8" />
-    <title>Crumb — Sourdough hydration calculator</title>
+    <meta name="theme-color" content="#201612" />
+    <title>Caffeine Diary — coffee tasting log</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="grain" aria-hidden="true"></div>
-    <a class="skip-link" href="#main-content">Skip to calculator</a>
-    <header class="topbar">
-      <a class="wordmark" href="./" aria-label="Crumb home"><span class="mark">C</span><span>crumb</span></a>
-      <div class="topbar-note"><span class="dot"></span> bake with intention</div>
-    </header>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Caffeine Diary home">
+          <span class="brand-mark" aria-hidden="true">◒</span>
+          <span>Caffeine Diary</span>
+        </a>
+        <p class="date-stamp" id="todayLabel"></p>
+      </header>
 
-    <main id="main-content" class="shell">
-      <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow">Sourdough / baker's desk</p>
-        <h1 id="page-title">Find your dough's<br /><em>sweet spot.</em></h1>
-        <p class="lede">A quick, calm way to turn flour and hydration into the water your starter is asking for.</p>
-      </section>
-
-      <section class="workspace" aria-label="Hydration calculator and saved recipes">
-        <div class="calculator panel">
-          <div class="panel-head">
-            <div>
-              <p class="kicker">01 / calculate</p>
-              <h2>Build the dough</h2>
-            </div>
-            <span class="formula" aria-label="Water equals flour times hydration divided by one hundred">water = flour × hydration ÷ 100</span>
+      <main>
+        <section class="intro" aria-labelledby="pageTitle">
+          <div>
+            <p class="eyebrow">Your personal tasting log</p>
+            <h1 id="pageTitle">Make every cup<br /><em>worth remembering.</em></h1>
           </div>
+          <p class="intro-copy">A quiet place for bright mornings, slow brews, and the coffees you’ll come back to.</p>
+        </section>
 
-          <form id="calculator-form" novalidate>
-            <div class="field-grid">
-              <label class="field">
-                <span>Flour weight</span>
-                <div class="input-wrap"><input id="flour" name="flour" type="number" inputmode="decimal" min="1" max="100000" step="0.1" value="500" autocomplete="off" aria-describedby="flour-help" aria-errormessage="form-message" /><b>g</b></div>
-                <small id="flour-help">The total flour in your mix</small>
-              </label>
-              <label class="field">
-                <span>Hydration</span>
-                <div class="input-wrap"><input id="hydration" name="hydration" type="number" inputmode="decimal" min="1" max="200" step="0.1" value="75" autocomplete="off" aria-describedby="hydration-help" aria-errormessage="form-message" /><b>%</b></div>
-                <small id="hydration-help">Water as a percentage of flour</small>
-              </label>
+        <section class="stats" aria-label="Diary statistics">
+          <div class="stat"><span class="stat-label">Cups logged</span><strong id="totalStat">0</strong></div>
+          <div class="stat"><span class="stat-label">Average rating</span><strong id="averageStat">—</strong></div>
+          <div class="stat stat-featured"><span class="stat-label">Your standout cup</span><strong id="bestStat">Nothing rated yet</strong><span id="bestRating" class="best-rating"></span></div>
+        </section>
+
+        <div class="workspace">
+          <section class="form-panel" aria-labelledby="formTitle">
+            <div class="panel-heading">
+              <div><p class="eyebrow">Keep a note</p><h2 id="formTitle">Log a coffee</h2></div>
+              <span class="cup-icon" aria-hidden="true">☕</span>
             </div>
-
-            <div class="presets" aria-label="Common hydration presets">
-              <span class="preset-label">Quick set</span>
-              <div class="preset-buttons">
-                <button type="button" class="preset" data-hydration="65">65%</button>
-                <button type="button" class="preset" data-hydration="75" aria-pressed="true">75%</button>
-                <button type="button" class="preset" data-hydration="80">80%</button>
-                <button type="button" class="preset" data-hydration="85">85%</button>
+            <form id="coffeeForm" novalidate>
+              <input type="hidden" id="entryId" />
+              <label for="coffeeName">Coffee name <span aria-hidden="true">*</span></label>
+              <input id="coffeeName" name="coffeeName" type="text" placeholder="Ethiopian Yirgacheffe" maxlength="80" required />
+              <div class="field-row">
+                <div><label for="roaster">Roaster / café <span aria-hidden="true">*</span></label><input id="roaster" name="roaster" type="text" placeholder="Little Wolf Coffee" maxlength="80" required /></div>
+                <div><label for="brewMethod">Brew method</label><select id="brewMethod" name="brewMethod"><option value="Pour-over">Pour-over</option><option value="Espresso">Espresso</option><option value="French press">French press</option><option value="Cold brew">Cold brew</option><option value="Aeropress">AeroPress</option><option value="Moka pot">Moka pot</option><option value="Drip">Drip</option><option value="Other">Other</option></select></div>
               </div>
-            </div>
+              <div class="field-row compact-row">
+                <div><label for="dateTried">Date tried</label><input id="dateTried" name="dateTried" type="date" required /></div>
+                <div><label id="ratingLabel">Rating <span aria-hidden="true">*</span></label><div class="stars" id="ratingStars" role="radiogroup" aria-labelledby="ratingLabel"><button type="button" class="star" data-rating="1" role="radio" aria-label="1 star">★</button><button type="button" class="star" data-rating="2" role="radio" aria-label="2 stars">★</button><button type="button" class="star" data-rating="3" role="radio" aria-label="3 stars">★</button><button type="button" class="star" data-rating="4" role="radio" aria-label="4 stars">★</button><button type="button" class="star" data-rating="5" role="radio" aria-label="5 stars">★</button></div></div>
+              </div>
+              <label for="notes">Tasting notes</label>
+              <textarea id="notes" name="notes" maxlength="240" rows="3" placeholder="Chocolatey, floral, bright acidity…"></textarea>
+              <p class="form-error" id="formError" role="alert"></p>
+              <div class="form-actions"><button class="button button-primary" type="submit" id="submitButton">Save this cup <span aria-hidden="true">↗</span></button><button class="button button-quiet" type="button" id="cancelEdit" hidden>Cancel edit</button></div>
+            </form>
+          </section>
 
-            <div class="result" aria-live="polite">
-              <div class="result-copy"><span class="result-label">Add this much water</span><strong id="water-result">375 g</strong><span id="descriptor" class="descriptor">Classic loaf</span></div>
-              <div class="hydration-meter" aria-hidden="true"><span id="meter-fill"></span></div>
-            </div>
-            <p id="form-message" class="form-message" role="status"></p>
-          </form>
+          <section class="entries-panel" aria-labelledby="entriesTitle">
+            <div class="list-heading"><div><p class="eyebrow">The archive</p><h2 id="entriesTitle">Recent cups <span id="entryCount"></span></h2></div><button class="sort-button" id="sortButton" type="button" aria-label="Change sort order">Newest first <span aria-hidden="true">↕</span></button></div>
+            <div id="entriesList" class="entries-list" aria-live="polite"></div>
+          </section>
         </div>
-
-        <aside class="recipes panel" aria-labelledby="recipes-title">
-          <div class="panel-head">
-            <div>
-              <p class="kicker">02 / keep close</p>
-              <h2 id="recipes-title">Your recipes</h2>
-            </div>
-            <span id="recipe-count" class="count">0 / 5</span>
-          </div>
-          <p class="aside-copy">Save the bakes you return to. Your list stays on this device.</p>
-          <form id="recipe-form" class="recipe-form" novalidate>
-            <label class="sr-only" for="recipe-name">Recipe name</label>
-            <input id="recipe-name" name="recipe-name" type="text" maxlength="32" placeholder="e.g. Sunday Loaf…" autocomplete="off" aria-describedby="recipe-message" />
-            <button id="cancel-edit" class="text-button" type="button" hidden>Cancel</button>
-            <button id="save-recipe" class="save-button" type="submit"><span>Save recipe</span><span aria-hidden="true">↗</span></button>
-          </form>
-          <p id="recipe-message" class="form-message" role="status"></p>
-          <div id="recipe-list" class="recipe-list" aria-live="polite"></div>
-        </aside>
-      </section>
-      <footer class="footer"><span>Small inputs, better loaves.</span><span>Crumb / 2024</span></footer>
-    </main>
-    <script type="module" src="src/app.js"></script>
+      </main>
+      <footer><span>Made for the curious and caffeinated.</span><span class="mono">LOCAL · PRIVATE · YOURS</span></footer>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="src/main.js"></script>
   </body>
 </html>
